@@ -66,6 +66,53 @@ class BST():
             self.postOrderTraversal(node.rightChild)
             self.array.append(node.data)
 
+    
+    def remove(self, data):
+
+        if self.root:
+            self.root = self.removeNode(data, self.root)
+    
+    def removeNode(self, data, node):
+
+        if not node: 
+            return node
+        
+        if data < node.data:
+            node.leftChild = self.removeNode(data, node.leftChild)
+
+        elif data > node.data:
+            node.rightChild = self.removeNode(data, node.rightChild)
+
+        else:
+            # node is leaf 
+            if not node.leftChild and not node.rightChild:
+                del node
+                return None
+            
+            # node has right child
+            if not node.leftChild:
+                tempNode = node.rightChild
+                del node
+                return tempNode
+            
+            #node has left child 
+            elif not node.rightChild:
+                tempNode = node.leftChild
+                del node
+                return tempNode
+
+            # node has both left and right child
+            tempNode = self.getPredecessor(node.leftChild)
+            node.data = tempNode.data
+            node.leftChild = self.removeNode(tempNode.data, node.leftChild)
+
+        return node
+
+    def getPredecessor(self, node):
+
+        if node.rightChild:
+            return self.getPredecessor(node.rightChild)
+        return node
 
 
 if __name__ == "__main__":
@@ -82,6 +129,11 @@ if __name__ == "__main__":
     print(bst.traverse())
     print(bst.traverse(func='PreOrder'))
     print(bst.traverse(func='PostOrder'))
+
+    bst.remove(7)
+    print(bst.traverse())
+
+
 
 
 
