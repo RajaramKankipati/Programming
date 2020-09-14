@@ -114,24 +114,26 @@ class BST():
 
     #O(height)
     def getMinValue(self):
+
         if self.root:
             return self.getMin(self.root)
     
     def getMin(self, node):
+
         if node.leftChild:
             return self.getMin(node.leftChild)
         return node.data
     
     #O(height)
     def getMaxValue(self):
-
-        if self.root:
+        if self.root: 
             return self.getMax(self.root)
     
     def getMax(self, node):
         if node.rightChild:
             return self.getMax(node.rightChild)
         return node.data
+
 
 
 if __name__ == "__main__":
@@ -151,9 +153,9 @@ if __name__ == "__main__":
 
     bst.remove(7)
     print(bst.traverse())
-
     print(bst.getMaxValue())
     print(bst.getMinValue())
+
 
 
 
