@@ -11,19 +11,19 @@ class BST():
 
     def insert(self, data):
         if self.root:
-            self.insertNode(data, self.root)
+            self.__insertNode(data, self.root)
         else:
             self.root = Node(data)
 
-    def insertNode(self, data, node):
+    def __insertNode(self, data, node):
         if node.data > data:
             if node.leftChild:
-                self.insertNode(data, node.leftChild)
+                self.__insertNode(data, node.leftChild)
             else:
                 node.leftChild = Node(data)
         else:
             if node.rightChild:
-                self.insertNode(data, node.rightChild)
+                self.__insertNode(data, node.rightChild)
             else:
                 node.rightChild = Node(data)
 
@@ -34,53 +34,97 @@ class BST():
 
         if func == 'InOrder':
             if self.root:
-                self.inOrderTraversal(self.root)
+                self.__inOrderTraversal(self.root)
         elif func == 'PreOrder':
             if self.root: 
-                self.preOrderTraversal(self.root)
-        else: 
+                self.__preOrderTraversal(self.root)
+        elif func == 'PostOrder': 
             if self.root: 
-                self.postOrderTraversal(self.root)
+                self.__postOrderTraversal(self.root)
+        else: 
+            if self.root:
+                self.__levelOrderTraversal(self.root)
         
         return self.array
 
-
-    def inOrderTraversal(self, node):
+    def __inOrderTraversal(self, node):
 
         if node: 
-            self.inOrderTraversal(node.leftChild)
+            self.__inOrderTraversal(node.leftChild)
             self.array.append(node.data)
-            self.inOrderTraversal(node.rightChild)
+            self.__inOrderTraversal(node.rightChild)
         
-    def preOrderTraversal(self, node):
+    def __preOrderTraversal(self, node):
 
         if node: 
             self.array.append(node.data)
-            self.preOrderTraversal(node.leftChild)
-            self.preOrderTraversal(node.rightChild)
+            self.__preOrderTraversal(node.leftChild)
+            self.__preOrderTraversal(node.rightChild)
     
-    def postOrderTraversal(self, node):
+    def __postOrderTraversal(self, node):
         if node:
-            self.postOrderTraversal(node.leftChild)
-            self.postOrderTraversal(node.rightChild)
+            self.__postOrderTraversal(node.leftChild)
+            self.__postOrderTraversal(node.rightChild)
             self.array.append(node.data)
-
     
+    def __levelOrderTraversal(self, node):
+        '''
+        appends the nodes to self.array
+
+        Args:
+            node: BST node
+        '''
+        queue = [node]
+        while queue:
+            currentNode = queue.pop(0)
+            self.array.append(currentNode.data)
+            if currentNode.leftChild:
+                queue.append(currentNode.leftChild)
+            if currentNode.rightChild:
+                queue.append(currentNode.rightChild)
+    
+    @staticmethod
+    def levelOrderTraversal1(node):
+        '''
+        appends the nodes to self.array
+
+        Args:
+            node: BST node
+        
+        Returns: 
+            levels: All the levels 
+        '''
+        levels = []
+        level = 0
+        queue = [node]
+        while queue:
+            levels.append([])
+            level_length = len(queue)
+            for i in range(level_length):
+                currentNode = queue.pop(0)
+                levels[level].append(currentNode.data)
+                if currentNode.leftChild:
+                    queue.append(currentNode.leftChild)
+                if currentNode.rightChild:
+                    queue.append(currentNode.rightChild)
+            level += 1
+        return levels
+
     def remove(self, data):
 
         if self.root:
-            self.root = self.removeNode(data, self.root)
+            self.root = self.__removeNode(data, self.root)
     
-    def removeNode(self, data, node):
+    def __removeNode(self, data, node):
 
         if not node: 
             return node
         
         if data < node.data:
-            node.leftChild = self.removeNode(data, node.leftChild)
+            node.leftChild = self.__removeNode(data, node.leftChild)
 
         elif data > node.data:
-            node.rightChild = self.removeNode(data, node.rightChild)
+            node.rightChild = self.__removeNode(data, node.rightChild)
 
         else:
             # node is leaf 
@@ -101,39 +145,99 @@ class BST():
                 return tempNode
 
             # node has both left and right child
-            tempNode = self.getPredecessor(node.leftChild)
+            tempNode = self.__getPredecessor(node.leftChild)
             node.data = tempNode.data
-            node.leftChild = self.removeNode(tempNode.data, node.leftChild)
+            node.leftChild = self.__removeNode(tempNode.data, node.leftChild)
 
         return node
 
-    def getPredecessor(self, node):
+    def __getPredecessor(self, node):
         if node.rightChild:
-            return self.getPredecessor(node.rightChild)
+            return self.__getPredecessor(node.rightChild)
         return node
 
     #O(height)
     def getMinValue(self):
 
         if self.root:
-            return self.getMin(self.root)
+            return self.__getMin(self.root)
     
-    def getMin(self, node):
+    def __getMin(self, node):
 
         if node.leftChild:
-            return self.getMin(node.leftChild)
+            return self.__getMin(node.leftChild)
         return node.data
     
     #O(height)
     def getMaxValue(self):
         if self.root: 
-            return self.getMax(self.root)
+            return self.__getMax(self.root)
     
-    def getMax(self, node):
+    def __getMax(self, node):
         if node.rightChild:
-            return self.getMax(node.rightChild)
+            return self.__getMax(node.rightChild)
         return node.data
 
+    def getSize(self):
+        '''
+        returns the size of the BST 
+
+        Args:
+            self: BST object
+        
+        Returns: 
+            size of the BST
+        '''
+        if self.root:
+            return self.__getSizeHelper(self.root)
+
+    def __getSizeHelper(self, node):
+        '''
+        returns the size of the BST 
+
+        Args:
+            self: BST object
+            node: node of the BST
+        
+        Returns: 
+            size of the BST
+        '''
+        if not node: 
+            return 0
+        leftSize =  self.__getSizeHelper(node.leftChild)
+        rightSize = self.__getSizeHelper(node.rightChild)
+        return leftSize + rightSize + 1    
+    
+    def getHeight(self):
+        '''
+        returns the height of the BST 
+
+        Args:
+            self: BST object
+        
+        Returns: 
+            height of the BST
+        '''
+        if self.root: 
+            return self.__getHeightHelper(self.root)
+    
+    def __getHeightHelper(self, node):
+        '''
+        returns the height of the BST 
+
+        Args:
+            self: BST object
+            node: node of the BST
+        
+        Returns: 
+            height of the BST
+        '''
+        if not node:
+            return 0
+        leftHeight = self.__getHeightHelper(node.leftChild)
+        rightHeight = self.__getHeightHelper(node.rightChild)
+        return 1 + max(leftHeight, rightHeight)
+    
 
 
 if __name__ == "__main__":
@@ -147,14 +251,20 @@ if __name__ == "__main__":
     bst.insert(4)
     bst.insert(11)
 
-    print(bst.traverse())
-    print(bst.traverse(func='PreOrder'))
-    print(bst.traverse(func='PostOrder'))
+    print('Inorder Traversal: {0}'.format(bst.traverse()))
+    print('PreOrder Traversal: {0}'.format(bst.traverse(func='PreOrder')))
+    print('PostOrder Traversal: {0}'.format(bst.traverse(func='PostOrder')))
+    print('LevelOrder Traversal: {0}'.format(bst.traverse(func='LevelOrder')))
 
     bst.remove(7)
-    print(bst.traverse())
-    print(bst.getMaxValue())
-    print(bst.getMinValue())
+    print('Inorder Traversal after deletion: {0}'.format(bst.traverse()))
+    print('Maximum value is {0}'.format(bst.getMaxValue()))
+    print('Minimum value is {0}'.format(bst.getMinValue()))
+
+    print('Size of the BST is {0}'.format(bst.getSize()))
+    print('Height of the BST is {0}'.format(bst.getHeight()))
+
+    print('LevelOrder traversal with brackets {0}'.format(bst.levelOrderTraversal1(bst.root)))
 
 
 
