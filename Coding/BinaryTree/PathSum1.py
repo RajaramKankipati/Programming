@@ -1,3 +1,4 @@
+#Add the code path as PYTHONPATH env variable for importing 
 from Coding.BinaryTree.BST import BST
 
 def pathSum1(node, target):
