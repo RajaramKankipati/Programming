@@ -74,12 +74,18 @@ class BST():
         Args:
             node: BST node
         '''
+        #add node to the queue
         queue = [node]
+        #Iterate over the elements in queue
         while queue:
+            #get the currentNode 
             currentNode = queue.pop(0)
+            #append the value to the array
             self.array.append(currentNode.data)
+            #if the left child is present then add the node to queue
             if currentNode.leftChild:
                 queue.append(currentNode.leftChild)
+            #if the right child is present then add the node to queue
             if currentNode.rightChild:
                 queue.append(currentNode.rightChild)
     
@@ -94,20 +100,33 @@ class BST():
         Returns: 
             levels: All the levels 
         '''
+        #levels to return the level order traversal
         levels = []
+        #intialize the level with 0
         level = 0
+        #add the node to the queue
         queue = [node]
+        #Iterate until the queue is empty
         while queue:
+            #Every new level append the bracket
             levels.append([])
+            #get the current level length in the queue
             level_length = len(queue)
+            #Iterate over the elements in the queue 
             for i in range(level_length):
+                #get the currentnode
                 currentNode = queue.pop(0)
+                #append the node val to the current level
                 levels[level].append(currentNode.data)
+                #if the left child is present then add the node to queue
                 if currentNode.leftChild:
                     queue.append(currentNode.leftChild)
+                #if the right child is present then add the node to queue
                 if currentNode.rightChild:
                     queue.append(currentNode.rightChild)
+            #once the level is done then increment the level by 1
             level += 1
+        #return the levels
         return levels
 
     def remove(self, data):
