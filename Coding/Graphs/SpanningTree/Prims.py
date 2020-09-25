@@ -1,7 +1,9 @@
 import heapq;
 
 class Vertex(object):
-
+	'''
+	constructor to set the name and the adjacencies list
+	'''
 	def __init__(self, name):
 		self.name = name;
 		self.visited = False;
