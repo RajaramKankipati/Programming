@@ -1,5 +1,6 @@
 import heapq;
 
+#Vertex class
 class Vertex(object):
 
 	def __init__(self, name):
