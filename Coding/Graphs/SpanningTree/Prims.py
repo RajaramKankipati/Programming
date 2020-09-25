@@ -1,5 +1,6 @@
 import heapq;
 
+#Vertex class
 class Vertex(object):
 	'''
 	constructor to set the name and the adjacencies list
