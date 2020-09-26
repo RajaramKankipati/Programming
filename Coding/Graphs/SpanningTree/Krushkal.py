@@ -1,8 +1,9 @@
 
 class Vertex(object):
+
 	def __init__(self, name):
 		self.name = name;
-		self.node = None; 
+		self.node = None; # !!!!
 		
 class Node(object):
 
@@ -70,8 +71,7 @@ class DisjointSet(object):
 		else:
 			root2.parentNode = root1;
 			root1.height = root1.height + 1;
-		self.setCount -= 1
-
+		
 	def makeSets(self, vertexList):
 		for v in vertexList:
 			self.makeSet(v);
@@ -93,61 +93,64 @@ class KruskalAlgorithm(object):
 		edgeList.sort();
 		
 		for edge in edgeList:
-
-			u = edge.startVertex
-			v = edge.targetVertex
-
+		
+			u = edge.startVertex;
+			v = edge.targetVertex;
+			
 			if disjointSet.find(u.node) is not disjointSet.find(v.node):
-				spanningTree.append(edge)
-				disjointSet.merge(u.node, v.node)  # !!!! dot
-
+				spanningTree.append(edge);
+				disjointSet.merge(u.node, v.node);  # !!!! dot
+				
 		for edge in spanningTree:
-			print(edge.startVertex.name, " - ", edge.targetVertex.name)
-		print(disjointSet.setCount)
+			print(edge.startVertex.name," - ", edge.targetVertex.name);
 
 if __name__ == "__main__":
-    vertex1 = Vertex("a");
-    vertex2 = Vertex("b");
-    vertex3 = Vertex("c");
-    vertex4 = Vertex("d");
-    vertex5 = Vertex("e");
-    vertex6 = Vertex("f");
-    vertex7 = Vertex("g");
+    	
+	vertex1 = Vertex("a");
+	vertex2 = Vertex("b");
+	vertex3 = Vertex("c");
+	vertex4 = Vertex("d");
+	vertex5 = Vertex("e");
+	vertex6 = Vertex("f");
+	vertex7 = Vertex("g");
 
-    edge1 = Edge(2,vertex1,vertex2);
-    edge2 = Edge(6,vertex1,vertex3);
-    edge3 = Edge(5,vertex1,vertex5);
-    edge4 = Edge(10,vertex1,vertex6);
-    edge5 = Edge(3,vertex2,vertex4);
-    edge6 = Edge(3,vertex2,vertex5);
-    edge7 = Edge(1,vertex3,vertex4);
-    edge8 = Edge(2,vertex3,vertex6);
-    edge9 = Edge(4,vertex4,vertex5);
-    edge10 = Edge(5,vertex4,vertex7);
-    edge11 = Edge(5,vertex6,vertex7);
+	edge1 = Edge(2,vertex1,vertex2);
+	edge2 = Edge(6,vertex1,vertex3);
+	edge3 = Edge(5,vertex1,vertex5);
+	edge4 = Edge(10,vertex1,vertex6);
+	edge5 = Edge(3,vertex2,vertex4);
+	edge6 = Edge(3,vertex2,vertex5);
+	edge7 = Edge(1,vertex3,vertex4);
+	edge8 = Edge(2,vertex3,vertex6);
+	edge9 = Edge(4,vertex4,vertex5);
+	edge10 = Edge(5,vertex4,vertex7);
+	edge11 = Edge(5,vertex6,vertex7);
 
 
-    vertexList = [];
-    vertexList.append(vertex1);
-    vertexList.append(vertex2);
-    vertexList.append(vertex3);
-    vertexList.append(vertex4);
-    vertexList.append(vertex5);
-    vertexList.append(vertex6);
-    vertexList.append(vertex7);
+	vertexList = [];
+	vertexList.append(vertex1);
+	vertexList.append(vertex2);
+	vertexList.append(vertex3);
+	vertexList.append(vertex4);
+	vertexList.append(vertex5);
+	vertexList.append(vertex6);
+	vertexList.append(vertex7);
 
-    edgeList = [];
-    edgeList.append(edge1);
-    edgeList.append(edge2);
-    edgeList.append(edge3);
-    edgeList.append(edge4);
-    edgeList.append(edge5);
-    edgeList.append(edge6);
-    edgeList.append(edge7);
-    edgeList.append(edge8);
-    edgeList.append(edge9);
-    edgeList.append(edge10);
-    edgeList.append(edge11);
+	edgeList = [];
+	edgeList.append(edge1);
+	edgeList.append(edge2);
+	edgeList.append(edge3);
+	edgeList.append(edge4);
+	edgeList.append(edge5);
+	edgeList.append(edge6);
+	edgeList.append(edge7);
+	edgeList.append(edge8);
+	edgeList.append(edge9);
+	edgeList.append(edge10);
+	edgeList.append(edge11);
 
-    algorithm = KruskalAlgorithm();
-    algorithm.spanningTree(vertexList, edgeList)
+	algorithm = KruskalAlgorithm();
+	algorithm.spanningTree(vertexList, edgeList);			
+		
+
+
